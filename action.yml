@@ -1,6 +1,10 @@
 name: 'Palladio Build Pipeline'
 description: 'Build of Palladio Project'
 inputs:
+  build-repository:  # id of input
+    description: 'Repository to build'
+    required: true
+    default: 'PalladioSimulator/Palladio-Core-Commons'
   use-display-output:  # id of input
     description: 'If display output is needed for ui tesing'
     required: false
@@ -18,7 +22,7 @@ runs:
   steps:
       - uses: actions/checkout@v3
         with:
-          repository: ${{ github.repository }}
+          repository: ${{ inputs.build-repository }}
           submodules: true
       - name: Set up JDK
         uses: actions/setup-java@v2
