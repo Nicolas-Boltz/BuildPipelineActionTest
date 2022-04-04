@@ -27,6 +27,7 @@ runs:
           java-version: ${{ inputs.java-version }}
           cache: 'maven'
       - name: Verify with Maven
+        shell: bash
         run: |
           if ${{ inputs.use-display-output }}; then
               DISPLAY=:0 mvn clean verify
@@ -35,5 +36,6 @@ runs:
           fi
       - name: Deploy to Updatesite
         if: ${{ inputs.deploy-updatesite != '' }}
+        shell: bash
         run: echo 'Here we should deploy to ${{ inputs.deploy-updatesite }}'
        
