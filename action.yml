@@ -1,0 +1,39 @@
+name: 'Palladio Build Pipeline'
+description: 'Build of Palladio Project'
+inputs:
+  use-display-output:  # id of input
+    description: 'If display output is needed for ui tesing'
+    required: false
+    default: false
+  deploy-updatesite:
+    description: 'Updatesite for deployment. If empty deployment is skipped'
+    required: false
+    default: ''
+  java-version:
+    description: 'Java version for build. Default 11'
+    required: false
+    default: '11'
+runs:
+  using: "composite"
+  steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: ${{ github.repository }}
+          submodules: true
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: ${{ inputs.java-version }}
+          cache: 'maven'
+      - name: Verify with Maven
+        run: |
+          if ${{ inputs.use-display-output }}; then
+              DISPLAY=:0 mvn clean verify
+          else
+              mvn clean verify
+          fi
+      - name: Deploy to Updatesite
+        if: ${{ inputs.deploy-updatesite != '' }}
+        run: echo 'Here we should deploy to ${{ inputs.deploy-updatesite }}'
+       
