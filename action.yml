@@ -4,7 +4,7 @@ inputs:
   build-repository:  # id of input
     description: 'Repository to build'
     required: true
-    default: 'PalladioSimulator/Palladio-Core-Commons'
+    default:  ${{ github.repository }}
   use-display-output:  # id of input
     description: 'If display output is needed for ui tesing'
     required: false
@@ -39,7 +39,9 @@ runs:
               mvn clean verify
           fi
       - name: Deploy to Updatesite
-        if: ${{ inputs.deploy-updatesite != '' }}
-        shell: bash
-        run: echo 'Here we should deploy to ${{ inputs.deploy-updatesite }}'
-       
+        if: ${{ inputs.deploy-updatesite != '' && github.event_name != 'pull_request' }}
+        uses: Nicolas-Boltz/PalladioDeploymentActionTest@v1
+        with:
+          build-repository: ${{ inputs.build-repository }}
+          source-path: ${{ inputs.deploy-updatesite }}
+          
