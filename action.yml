@@ -69,5 +69,5 @@ runs:
           REMOTE_HOST: ${{ inputs.REMOTE_HOST }}
           REMOTE_PORT: ${{ inputs.REMOTE_PORT }}
           REMOTE_USER: ${{ inputs.REMOTE_USER }}
-          TARGET: '${{ inputs.REMOTE_TARGET }}/${{ input.build-repository }}'
+          TARGET: '${{ inputs.REMOTE_TARGET }}/${{ inputs.build-repository }}'
           
