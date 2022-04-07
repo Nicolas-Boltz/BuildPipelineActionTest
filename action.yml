@@ -39,6 +39,7 @@ runs:
               mvn clean verify
           fi
       - name: Create single repository name
+        shell: bash
         run: echo '::set-output name=REPO_NAME::${{ input.build-repository }} | cut -d/ -f 2 | tr [:upper:] [:lower:]' #removes "PalladioSimulator/" from repository name
         id: repo-name-generator
       - name: Echo all parameters
