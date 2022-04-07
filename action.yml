@@ -17,6 +17,27 @@ inputs:
     description: 'Java version for build. Default 11'
     required: false
     default: '11'
+  SERVER_SSH_KEY:
+    description: 'SSH Key for deployment'
+    required: true
+    default: ''
+  REMOTE_HOST:
+    description: 'Remote host ip'
+    required: true
+    default: ''
+  REMOTE_PORT:
+    description: 'Remote host port'
+    required: true
+    default: ''
+  REMOTE_USER:
+    description: 'Remote host user'
+    required: true
+    default: ''
+  REMOTE_TARGET:
+    description: 'Remote host target path'
+    required: true
+    default: ''
+
 runs:
   using: "composite"
   steps:
@@ -42,11 +63,11 @@ runs:
         if: ${{ github.ref_name == 'master' || github.ref_name == 'main'}}
         uses: easingthemes/ssh-deploy@v2
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          SSH_PRIVATE_KEY: ${{ inputs.SERVER_SSH_KEY }}
           ARGS: "-rltgoDzvO"
           SOURCE: ${{ inputs.deploy-updatesite }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: '${{ secrets.REMOTE_TARGET/input.build-repository}}'
+          REMOTE_HOST: ${{ inputs.REMOTE_HOST }}
+          REMOTE_PORT: ${{ inputs.REMOTE_PORT }}
+          REMOTE_USER: ${{ inputs.REMOTE_USER }}
+          TARGET: '${{ inputs.REMOTE_TARGET/input.build-repository}}'
           
