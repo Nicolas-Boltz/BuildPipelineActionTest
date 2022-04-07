@@ -38,10 +38,12 @@ runs:
           else
               mvn clean verify
           fi
-      - name: Deploy to Updatesite
-        if: ${{ inputs.deploy-updatesite != '' && github.event_name != 'pull_request' }}
-        uses: Nicolas-Boltz/PalladioDeploymentActionTest@master
-        with:
-          build-repository: ${{ inputs.build-repository }}
-          source-path: ${{ inputs.deploy-updatesite }}
+      - name: Create single repository name
+        run: echo '::set-output name=REPO_NAME::${{ input.build-repository }} | cut -d/ -f 2 | tr [:upper:] [:lower:]' #removes "PalladioSimulator/" from repository name
+        id: repo-name-generator
+      - name: Echo all parameters
+        shell: bash
+        run: |
+        echo ${{ github.ref_name }}
+        echo '${{ secrets.REMOTE_TARGET/steps.repo-name-generator.outputs.REPO_NAME }}'
           
