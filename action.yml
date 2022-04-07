@@ -40,7 +40,7 @@ runs:
           fi
       - name: Deploy to Updatesite
         if: ${{ inputs.deploy-updatesite != '' && github.event_name != 'pull_request' }}
-        uses: Nicolas-Boltz/PalladioDeploymentActionTest@v1
+        uses: Nicolas-Boltz/PalladioDeploymentActionTest@master
         with:
           build-repository: ${{ inputs.build-repository }}
           source-path: ${{ inputs.deploy-updatesite }}
