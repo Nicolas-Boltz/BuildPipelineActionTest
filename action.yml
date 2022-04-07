@@ -38,13 +38,15 @@ runs:
           else
               mvn clean verify
           fi
-      - name: Create single repository name
-        shell: bash
-        run: echo '::set-output name=REPO_NAME::${{ input.build-repository }} | cut -d/ -f 2 | tr [:upper:] [:lower:]' #removes "PalladioSimulator/" from repository name
-        id: repo-name-generator
-      - name: Echo all parameters
-        shell: bash
-        run: |
-        echo ${{ github.ref_name }}
-        echo '${{ secrets.REMOTE_TARGET/steps.repo-name-generator.outputs.REPO_NAME }}'
+      - name: Deploy test
+        if: ${{ github.ref_name == 'master' || github.ref_name == 'main'}}
+        uses: easingthemes/ssh-deploy@v2
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: "-rltgoDzvO"
+          SOURCE: ${{ inputs.deploy-updatesite }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: '${{ secrets.REMOTE_TARGET/input.build-repository}}'
           
