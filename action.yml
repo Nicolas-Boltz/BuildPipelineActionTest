@@ -37,6 +37,10 @@ inputs:
     description: 'Remote host target path'
     required: true
     default: ''
+  DEPLOY_TEST:
+    description: 'Switch to turn deployment on and off'
+    required: true
+    default: false
 
 runs:
   using: "composite"
@@ -60,7 +64,7 @@ runs:
               mvn clean verify
           fi
       - name: Deploy test
-        if: ${{ github.ref_name == 'master' || github.ref_name == 'main'}}
+        if: ${{ inputs.DEPLOY_TEST }}
         uses: easingthemes/ssh-deploy@v2
         env:
           SSH_PRIVATE_KEY: ${{ inputs.SERVER_SSH_KEY }}
