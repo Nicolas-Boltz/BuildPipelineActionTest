@@ -63,15 +63,15 @@ runs:
           else
               mvn clean verify
           fi
-      - name: Deploy test
-        if: ${{ inputs.DEPLOY_TEST }}
-        uses: easingthemes/ssh-deploy@v2
-        env:
-          SSH_PRIVATE_KEY: ${{ inputs.SERVER_SSH_KEY }}
-          ARGS: "-rltgoDzvO"
-          SOURCE: ${{ inputs.deploy-updatesite }}
-          REMOTE_HOST: ${{ inputs.REMOTE_HOST }}
-          REMOTE_PORT: ${{ inputs.REMOTE_PORT }}
-          REMOTE_USER: ${{ inputs.REMOTE_USER }}
-          TARGET: '${{ inputs.REMOTE_TARGET }}/deploy-test/'
+#      - name: Deploy test
+#        if: ${{ inputs.DEPLOY_TEST }}
+#        uses: easingthemes/ssh-deploy@v2
+#        env:
+#          SSH_PRIVATE_KEY: ${{ inputs.SERVER_SSH_KEY }}
+#          ARGS: "-rltgoDzvO"
+#          SOURCE: ${{ inputs.deploy-updatesite }}
+#          REMOTE_HOST: ${{ inputs.REMOTE_HOST }}
+#          REMOTE_PORT: ${{ inputs.REMOTE_PORT }}
+#          REMOTE_USER: ${{ inputs.REMOTE_USER }}
+#          TARGET: '${{ inputs.REMOTE_TARGET }}/deploy-test/'
           
