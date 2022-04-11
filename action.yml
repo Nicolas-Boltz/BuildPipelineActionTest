@@ -65,7 +65,7 @@ runs:
           fi
       - name: Create folder name
         shell: bash
-        run: echo "DEPLOY_FOLDER=$( ${{ inputs.build-repository }} | cut -d'/' -f2 | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+        run: echo "DEPLOY_FOLDER=$( ${{ inputs.build-repository }} | cut -d'/' -f2 | sed -e 's/\(.*\)/\L\1/' )" >> $GITHUB_ENV
       - name: Create Deployment Path
         shell: bash
         run: echo "REMOTE_PATH=$( '${{ inputs.REMOTE_TARGET}}/${{ env.DEPLOY_FOLDER }}/nightly' )" >> $GITHUB_ENV
