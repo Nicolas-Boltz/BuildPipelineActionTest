@@ -37,10 +37,10 @@ inputs:
     description: 'Remote host target path'
     required: true
     default: ''
-  DEPLOY_TEST:
-    description: 'Switch to turn deployment on and off'
-    required: true
-    default: false
+
+env:
+  DEPLOY_FOLDER: ''
+  REMOTE_PATH: ''
 
 runs:
   using: "composite"
@@ -63,6 +63,10 @@ runs:
           else
               mvn clean verify
           fi
+      - name: Create folder name
+        run: echo "DEPLOY_FOLDER=$( ${{ inputs.build-repository }} | cut -d'/' -f2 | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      - name: Create Deployment Path
+        run: echo "REMOTE_PATH=$( '${{ inputs.REMOTE_TARGET}}/${{ env.DEPLOY_FOLDER }}/nightly' )" >> $GITHUB_ENV
       - name: SFTP Deploy
         uses: wlixcc/SFTP-Deploy-Action@v1.2.2
         with:
@@ -70,7 +74,7 @@ runs:
           server: ${{ inputs.REMOTE_HOST }}
           ssh_private_key: ${{ inputs.SERVER_SSH_KEY }}
           local_path: ${{ inputs.deploy-updatesite }}
-          remote_path: '${{ inputs.REMOTE_TARGET }}/deploy_tmp_test/'
+          remote_path: ${{ env.REMOATE_PATH }}
           port: ${{ inputs.REMOTE_PORT }}
           args: '-o ConnectTimeout=5'  
           
