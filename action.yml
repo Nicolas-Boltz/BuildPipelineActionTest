@@ -61,10 +61,10 @@ runs:
           fi
       - name: Create folder name
         shell: bash
-        run: echo "DEPLOY_FOLDER=${ ${{ inputs.build-repository }} | cut -d'/' -f2 | sed -e 's/\(.*\)/\L\1/' }" >> $GITHUB_ENV
+        run: echo "DEPLOY_FOLDER=$( echo ${{ inputs.build-repository }} | cut -d'/' -f2 | sed -e 's/\(.*\)/\L\1/' )" >> $GITHUB_ENV
       - name: Create Deployment Path
         shell: bash
-        run: echo "REMOTE_PATH=${ '${{ inputs.REMOTE_TARGET}}/${{ env.DEPLOY_FOLDER }}/nightly' }" >> $GITHUB_ENV
+        run: echo "REMOTE_PATH=$( echo '${{ inputs.REMOTE_TARGET}}/${{ env.DEPLOY_FOLDER }}/nightly' )" >> $GITHUB_ENV
       - name: SFTP Deploy
         uses: wlixcc/SFTP-Deploy-Action@v1.2.2
         with:
