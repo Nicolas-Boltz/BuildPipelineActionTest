@@ -38,10 +38,6 @@ inputs:
     required: true
     default: ''
 
-env:
-  DEPLOY_FOLDER: ''
-  REMOTE_PATH: ''
-
 runs:
   using: "composite"
   steps:
@@ -76,7 +72,7 @@ runs:
           server: ${{ inputs.REMOTE_HOST }}
           ssh_private_key: ${{ inputs.SERVER_SSH_KEY }}
           local_path: ${{ inputs.deploy-updatesite }}
-          remote_path: ${{ env.REMOATE_PATH }}
+          remote_path: ${{ env.REMOTE_PATH }}
           port: ${{ inputs.REMOTE_PORT }}
           args: '-o ConnectTimeout=5'  
           
