@@ -70,7 +70,7 @@ runs:
           server: ${{ inputs.REMOTE_HOST }}
           ssh_private_key: ${{ inputs.SERVER_SSH_KEY }}
           local_path: ${{ inputs.deploy-updatesite }}
-          remote_path: '${{ inputs.REMOTE_TARGET }}/deploy-test/'
+          remote_path: '${{ inputs.REMOTE_TARGET }}/deploy_tmp_test/'
           port: ${{ inputs.REMOTE_PORT }}
           args: '-o ConnectTimeout=5'  
           
