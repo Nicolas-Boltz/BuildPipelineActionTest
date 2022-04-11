@@ -63,14 +63,24 @@ runs:
           else
               mvn clean verify
           fi
-      - name: Deploy test
-        uses: easingthemes/ssh-deploy@v2
-        env:
-          SSH_PRIVATE_KEY: ${{ inputs.SERVER_SSH_KEY }}
-          ARGS: "-rltgoDzvO"
-          SOURCE: ${{ inputs.deploy-updatesite }}
-          REMOTE_HOST: ${{ inputs.REMOTE_HOST }}
-          REMOTE_PORT: ${{ inputs.REMOTE_PORT }}
-          REMOTE_USER: ${{ inputs.REMOTE_USER }}
-          TARGET: '${{ inputs.REMOTE_TARGET }}/deploy-test/'
+#      - name: Deploy test
+#        uses: easingthemes/ssh-deploy@v2
+#        env:
+#          SSH_PRIVATE_KEY: ${{ inputs.SERVER_SSH_KEY }}
+#          ARGS: "-rltgoDzvO"
+#          SOURCE: ${{ inputs.deploy-updatesite }}
+#          REMOTE_HOST: ${{ inputs.REMOTE_HOST }}
+#          REMOTE_PORT: ${{ inputs.REMOTE_PORT }}
+#          REMOTE_USER: ${{ inputs.REMOTE_USER }}
+#          TARGET: '${{ inputs.REMOTE_TARGET }}/deploy-test/'
+     - name: SFTP Deploy
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.2
+        with:
+          username: ${{ inputs.REMOTE_USER }}
+          server: ${{ inputs.REMOTE_HOST }}
+          ssh_private_key: ${{ inputs.SERVER_SSH_KEY }}
+          local_path: ${{ inputs.deploy-updatesite }}
+          remote_path: '${{ inputs.REMOTE_TARGET }}/deploy-test/'
+          port: ${{ inputs.REMOTE_PORT }}
+          args: '-o ConnectTimeout=5'  
           
