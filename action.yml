@@ -91,7 +91,7 @@ runs:
           username: ${{ inputs.remote-user }}
           server: ${{ inputs.remote-host }}
           ssh_private_key: ${{ inputs.server-ssh-key }}
-          local_path: ${{ inputs.deploy-updatesite }}
+          local_path: './${{ inputs.deploy-updatesite }}/*'
           remote_path: ${{ env.REMOTE_PATH }}
           port: ${{ inputs.remote-port }}
           args: '-o ConnectTimeout=5'  
