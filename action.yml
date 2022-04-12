@@ -90,7 +90,8 @@ runs:
         if: ${{ env.DEPLOY_UPDATESITE == 'true' }}
         shell: bash
         run: |
-          if [ ${{ github.ref_name == 'master' }} ] || [ ${{ github.ref_name == 'main' }} ]; then
+          if ${{ github.ref_name == 'master' }} || ${{ github.ref_name == 'main' }} 
+          then
               echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/nightly' )" >> $GITHUB_ENV
           else
               echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/branches/${{ github.ref_name }}' )" >> $GITHUB_ENV
