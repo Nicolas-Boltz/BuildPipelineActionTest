@@ -79,15 +79,15 @@ runs:
           fi
 
       - name: Create folder name
-        if: ${{ env.DEPLOY_UPDATESITE == true }}
+        if: ${{ env.DEPLOY_UPDATESITE == 'true' }}
         shell: bash
         run: echo "DEPLOY_FOLDER=$( echo ${{ inputs.build-repository }} | cut -d'/' -f2 | sed -e 's/\(.*\)/\L\1/' )" >> $GITHUB_ENV
       - name: Create project deployment path
-        if: ${{ env.DEPLOY_UPDATESITE == true }}
+        if: ${{ env.DEPLOY_UPDATESITE == 'true' }}
         shell: bash
         run: echo "PROJECT_DEPLOY_PATH=$( echo '${{ inputs.remote-target}}/${{ env.DEPLOY_FOLDER }}' )" >> $GITHUB_ENV
       - name: Create Deployment Path
-        if: ${{ env.DEPLOY_UPDATESITE == true }}
+        if: ${{ env.DEPLOY_UPDATESITE == 'true' }}
         shell: bash
         run: |
           if [ ${{ github.ref_name == 'master' }} ] || [ ${{ github.ref_name == 'main' }} ]; then
@@ -96,7 +96,7 @@ runs:
               echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/branches/${{ github.ref_name }}' )" >> $GITHUB_ENV
           fi
       - name: SFTP Deploy
-        if: ${{ env.DEPLOY_UPDATESITE == true }}
+        if: ${{ env.DEPLOY_UPDATESITE == 'true' }}
         uses: wlixcc/SFTP-Deploy-Action@v1.2.2
         with:
           username: ${{ inputs.remote-user }}
