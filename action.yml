@@ -64,28 +64,28 @@ runs:
               mvn clean verify
           fi
       - name: Create folder name
-	    if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' }}
         shell: bash
         run: echo "DEPLOY_FOLDER=$( echo ${{ inputs.build-repository }} | cut -d'/' -f2 | sed -e 's/\(.*\)/\L\1/' )" >> $GITHUB_ENV
-	  - name: Create project deployment path
-	    if: ${{ github.event_name != 'pull_request' }}
+      - name: Create project deployment path
+        if: ${{ github.event_name != 'pull_request' }}
         shell: bash
         run: echo "PROJECT_DEPLOY_PATH=$( echo '${{ inputs.REMOTE_TARGET}}/${{ env.DEPLOY_FOLDER }}' )" >> $GITHUB_ENV
       - name: Create Deployment Path
-	    if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' }}
         shell: bash
         run: |
           if [ ${{ github.ref_type == 'branch' }} ]; then
-		          if [ ${{ github.ref_name == 'master' }} ] || [ ${{ github.ref_name == 'main' }} ]; then
-			            echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/nightly' )" >> $GITHUB_ENV
+              if [ ${{ github.ref_name == 'master' }} ] || [ ${{ github.ref_name == 'main' }} ]; then
+                  echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/nightly' )" >> $GITHUB_ENV
               elif [ ${{ inputs.skip-branch-deploy == false }} ]; then
-			            echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/branches/${{ github.ref_name }}' )" >> $GITHUB_ENV
-			        else 
-			            exit 1
-			        fi
+                  echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/branches/${{ github.ref_name }}' )" >> $GITHUB_ENV
+              else 
+                  exit 1
+              fi
           fi
       - name: SFTP Deploy
-	    if: [ ${{ github.event_name != 'pull_request' }} ] || [ ${{ inputs.deploy-updatesite != '' }} ]
+        if: [ ${{ github.event_name != 'pull_request' }} ] || [ ${{ inputs.deploy-updatesite != '' }} ]
         uses: wlixcc/SFTP-Deploy-Action@v1.2.2
         with:
           username: ${{ inputs.remote-user }}
