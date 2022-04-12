@@ -85,7 +85,7 @@ runs:
               fi
           fi
       - name: SFTP Deploy
-        if: [ ${{ github.event_name != 'pull_request' }} ] || [ ${{ inputs.deploy-updatesite != '' }} ]
+        if: ${{ github.event_name != 'pull_request' }} || ${{ inputs.deploy-updatesite != '' }}
         uses: wlixcc/SFTP-Deploy-Action@v1.2.2
         with:
           username: ${{ inputs.remote-user }}
