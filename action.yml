@@ -70,7 +70,7 @@ runs:
       - name: Create project deployment path
         if: ${{ github.event_name != 'pull_request' }}
         shell: bash
-        run: echo "PROJECT_DEPLOY_PATH=$( echo '${{ inputs.REMOTE_TARGET}}/${{ env.DEPLOY_FOLDER }}' )" >> $GITHUB_ENV
+        run: echo "PROJECT_DEPLOY_PATH=$( echo '${{ inputs.remote-target}}/${{ env.DEPLOY_FOLDER }}' )" >> $GITHUB_ENV
       - name: Create Deployment Path
         if: ${{ github.event_name != 'pull_request' }}
         shell: bash
