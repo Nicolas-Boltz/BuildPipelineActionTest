@@ -96,14 +96,13 @@ runs:
           else
               echo "REMOTE_PATH=$( echo '${{ env.PROJECT_DEPLOY_PATH }}/branches/${{ github.ref_name }}' )" >> $GITHUB_ENV
           fi
-      - name: SFTP Deploy
+      - name: Deploy to Updatesite
         if: ${{ env.DEPLOY_UPDATESITE == 'true' }}
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.2
+        uses: Nicolas-Boltz/PalladioDeploymentActionTest@main
         with:
-          username: ${{ inputs.remote-user }}
-          server: ${{ inputs.remote-host }}
-          ssh_private_key: ${{ inputs.server-ssh-key }}
-          local_path: './${{ inputs.deploy-updatesite }}/*'
-          remote_path: ${{ env.REMOTE_PATH }}
-          port: ${{ inputs.remote-port }}
-          args: '-o ConnectTimeout=5'  
+          remote-user: ${{ inputs.remote-user }}
+          remote-host: ${{ inputs.remote-host }}
+          remote-port: ${{ inputs.remote-port }}
+          server-ssh-key: ${{ inputs.server-ssh-key }}
+          local-source: './${{ inputs.deploy-updatesite }}/*'
+          remote-target: ${{ env.REMOTE_PATH }}
