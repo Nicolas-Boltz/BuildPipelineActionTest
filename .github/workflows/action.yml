@@ -1,0 +1,20 @@
+name: Test
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  Palladio-Core-Commons:
+    needs: [Palladio-Supporting-Branding, Palladio-Example-Models, Palladio-P2Mirror-CBIAggregator]
+    if: success() || failure()
+    uses: PalladioSimulator/Palladio-Build-ActionsPipeline/.github/workflows/action_new.yml@skipAndUpdate
+    with:
+      use-display-output: true
+      build-repository: PalladioSimulator/Palladio-Core-Commons
+      deploy-updatesite: 'releng/org.palladiosimulator.core-commons.updatesite/target/repository'
+    secrets:
+      SERVER_SSH_KEY: ${{ secrets.DEPLOYMENT_SERVER_SSH_KEY }}
+      REMOTE_HOST: ${{ secrets.DEPLOYMENT_REMOTE_HOST }}
+      REMOTE_PORT: ${{ secrets.DEPLOYMENT_REMOTE_PORT }}
+      REMOTE_USER: ${{ secrets.DEPLOYMENT_REMOTE_USER }}
+      REMOTE_TARGET: ${{ secrets.DEPLOYMENT_REMOTE_TARGET }}
