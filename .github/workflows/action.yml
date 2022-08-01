@@ -7,7 +7,7 @@ jobs:
   Palladio-Core-Commons:
     needs: []
     if: success() || failure()
-    uses: PalladioSimulator/Palladio-Build-ActionsPipeline/.github/workflows/action_new.yml@skipAndUpdate
+    uses: PalladioSimulator/Palladio-Build-ActionsPipeline/.github/workflows/build.yml@skipAndUpdate
     with:
       use-display-output: true
       build-repository: PalladioSimulator/Palladio-Core-Commons
